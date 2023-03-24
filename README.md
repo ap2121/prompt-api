@@ -7,6 +7,10 @@ Sarah Connors least favorite social media app
  * Express
  * Node.js
 
+## Planning Materials 
+[Trello](https://trello.com/b/80RECP9y/prompt)
+
+
 ## Screenshots
 
 ## Future Updates
