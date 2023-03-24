@@ -2,7 +2,7 @@ const {User} = require('../models')
 
 const findUserById = async (req, res) => {
     try {
-        let userId = req.params.user_id
+        let userId = req.params.id
         const user = await User.findByPk(userId)
         res.send(user)
     } catch(error) {
