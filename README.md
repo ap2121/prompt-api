@@ -6,6 +6,7 @@ Sarah Connors least favorite social media app
  * Postgres
  * Express
  * Node.js
+ * Cloudinary API
 
 ## Planning Materials 
 [Trello](https://trello.com/b/80RECP9y/prompt)

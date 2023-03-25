@@ -49,6 +49,38 @@ const NewPost = async (req, res) => {
     }
 }
 
+const NewComment = async (req, res) => {
+    try {
+        let userId = parseInt(req.params.user_id)
+        console.log(userId)
+        let postId = parseInt(req.params.post_id)
+        console.log(postId)
+        const {comPrompt} = req.body
+        const aiComRes = await openAi.createCompletion({
+        model: 'text-davinci-003',
+        prompt: `Write a short instagram type comment about ${comPrompt}`,
+        temperature: 0.4,
+        max_tokens: 150
+    })
+    const comment = aiComRes.data.choices[0].text
+
+    let body = {
+        userId,
+        postId,
+        comRes: comment,
+        comPrompt
+        
+
+    }
+    let result = await Comment.create(body)
+    res.status(201).send(result)
+
+    } catch(error) {
+       throw error
+    }
+
+}
+
 const GetPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
@@ -76,5 +108,6 @@ const GetPost = async (req, res) => {
 module.exports = {
     NewPost,
     GetPosts,
-    GetPost
+    GetPost,
+    NewComment
 }
