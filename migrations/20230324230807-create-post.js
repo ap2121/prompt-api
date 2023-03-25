@@ -21,13 +21,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       capRes: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       imgPrompt: {
         type: Sequelize.STRING
       },
       imgRes: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(1000)
       },
       createdAt: {
         allowNull: false,

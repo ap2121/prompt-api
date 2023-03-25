@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     
     },
     capPrompt: DataTypes.STRING,
-    capRes: DataTypes.STRING,
-    imgPrompt: DataTypes.STRING,
+    capRes: DataTypes.STRING(1000),
+    imgPrompt: DataTypes.STRING(1000),
     imgRes: DataTypes.STRING
   }, {
     sequelize,
