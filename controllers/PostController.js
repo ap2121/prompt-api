@@ -48,13 +48,12 @@ const NewPost = async (req, res) => {
         res.status(400).send({err: error, msg: 'Hmm chatgpt seemed not to like that'})
     }
 }
+//NewComment controller in post controllers, due to OpenAI API config taking place in this file
 
 const NewComment = async (req, res) => {
     try {
-        let userId = parseInt(req.params.user_id)
-        console.log(userId)
-        let postId = parseInt(req.params.post_id)
-        console.log(postId)
+        const userId = parseInt(req.params.user_id)
+        const postId = parseInt(req.params.post_id)
         const {comPrompt} = req.body
         const aiComRes = await openAi.createCompletion({
         model: 'text-davinci-003',
