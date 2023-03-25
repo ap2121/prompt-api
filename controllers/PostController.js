@@ -1,6 +1,6 @@
 require('dotenv').config()
 const { Configuration, OpenAIApi } = require('openai')
-const {Post, sequelize} = require('../models')
+const {Post, Comment, sequelize} = require('../models')
 const cloudinary = require('cloudinary').v2
 
 const OPEN_AI_API_KEY = process.env.OPEN_AI_API_KEY
@@ -41,12 +41,27 @@ const NewPost = async (req, res) => {
             capRes: caption,
             ...req.body
         }
+        
         let post = await Post.create(body)
         res.status(201).send(post)
     } catch(error) {
-        throw error
+        res.status(400).send({err: error, msg: 'Hmm chatgpt seemed not to like that'})
     }
 }
+
+const GetPosts = async (req, res) => {
+    try {
+        const posts = await Post.findAll({
+            include: [{model: Comment}]
+        })
+        res.status(200).send(posts)
+    } catch(error) {
+        res.status(400).send({err: error, msg: 'Something went wrong'})
+    }
+
+}
+
 module.exports = {
-    NewPost
+    NewPost,
+    GetPosts
 }

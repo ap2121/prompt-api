@@ -1,10 +1,10 @@
-const {User, Post} = require('../models')
+const {User, Post, Comment} = require('../models')
 
 const findUserById = async (req, res) => {
     try {
         let userId = req.params.id
         const user = await User.findByPk(userId, {
-            include: [{model: Post}]
+            include: [{model: Post}, {model: Comment}]
         })
         res.send(user)
     } catch(error) {
