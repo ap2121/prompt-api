@@ -77,6 +77,8 @@ const getUserFollowing = async (req, res) => {
     res.send(user)
 }
 
+
+
 module.exports = {
     findUserById,
     getUsers,

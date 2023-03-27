@@ -103,6 +103,65 @@ const GetPost = async (req, res) => {
     }
 }
 
+const updateProPic = async (req, res) => {
+    try {
+        const userId = parseInt(req.params.user_id)
+    const {proPicPrompt, email, username, password, bio, bioPrompt} = req.body
+    const aiProPicRes = await openAi.createImage({
+        prompt: `Draw a picture of ${proPicPrompt}`,
+        n: 1,
+        size: '1024x1024',
+        response_format: 'url'
+
+    })
+
+    const photo = aiProPicRes.data.data[0].url
+    const newUrl = await cloudinary.uploader.upload(photo)
+
+    let body = {
+       ...req.body,
+        proPic: newUrl.secure_url
+    }
+
+    const updatedUser = await User.update(body, {
+        where: {id: userId},
+        returning: true
+    })
+
+    res.send(updatedUser)
+    } catch(error) {
+        throw error
+    }
+}
+
+const updateBio = async (req, res) => {
+   try {
+    const userId = parseInt(req.params.user_id)
+    const {email, username, password, proPicPrompt, proPic, bioPrompt} = req.body
+    const aiBioRes = await openAi.createCompletion({
+        model: 'text-davinci-003',
+        prompt: `Write a very short instagram about me bio about ${bioPrompt}`,
+        temperature: 0.5,
+        max_tokens: 200
+
+
+    })
+
+    const newBio = aiBioRes.data.choices[0].text
+    let body = {
+        ...req.body,
+        bio: newBio
+    }
+    const updatedUser = await User.update(body, {
+        where: {id: userId},
+        returning: true
+    })
+    res.send(updatedUser)
+    
+   } catch(error) {
+    throw error
+   }
+}
 
 
 
@@ -110,6 +169,8 @@ module.exports = {
     NewPost,
     GetPosts,
     GetPost,
-    NewComment
+    NewComment,
+    updateProPic,
+    updateBio
 }
 
