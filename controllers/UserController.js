@@ -58,11 +58,32 @@ const unfollowUser = async (req, res) => {
     res.send('ok')
 }
 
+const getUserFollowers = async (req, res) => {
+    const userId = parseInt(req.params.user_id)
+    const user = await User.findOne({
+        where: {id: userId},
+        include: [{model: User, as: 'Followers'}]
+    })
+   
+    res.send(user)
+}
+
+const getUserFollowing = async (req, res) => {
+    const userId = parseInt(req.params.user_id)
+    const user = await User.findOne({
+        where: {id: userId},
+        include: [{model:User, as: 'Following'}]
+    })
+    res.send(user)
+}
+
 module.exports = {
     findUserById,
     getUsers,
     followUser,
-    unfollowUser
+    unfollowUser,
+    getUserFollowers,
+    getUserFollowing
 
     
 }
