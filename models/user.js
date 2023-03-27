@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -10,8 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-     User.hasMany(models.Post, {foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
-     User.hasMany(models.Comment, {foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+      User.hasMany(models.Post, {foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+      User.hasMany(models.Comment, {foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+      User.belongsToMany(models.User, { as: 'Followers', through: models.UserFollowers, foreignKey: 'userId'})
+      User.belongsToMany(models.User, {as: 'Following', through: models.UserFollowers, foreignKey: 'followedId'})
     }
   }
   User.init({

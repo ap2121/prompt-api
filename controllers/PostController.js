@@ -2,7 +2,6 @@ require('dotenv').config()
 const { Configuration, OpenAIApi } = require('openai')
 const {Post, Comment, User, sequelize} = require('../models')
 const cloudinary = require('cloudinary').v2
-
 const OPEN_AI_API_KEY = process.env.OPEN_AI_API_KEY
 const OPEN_AI_ORG_KEY = process.env.OPEN_AI_ORG_KEY
 const configuration = new Configuration({
@@ -23,7 +22,7 @@ const NewPost = async (req, res) => {
         const aiImgRes = await openAi.createImage({
             prompt: `Draw a picture of ${imgPrompt}`,
             n: 1,
-            size: '512x512',
+            size: '1024x1024',
             response_format: 'url'
         })
         const aiCapRes = await openAi.createCompletion({
@@ -79,7 +78,7 @@ const NewComment = async (req, res) => {
     }
 
 }
-
+//////
 const GetPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
@@ -110,3 +109,4 @@ module.exports = {
     GetPost,
     NewComment
 }
+
