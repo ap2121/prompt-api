@@ -34,6 +34,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     proPic: {
       type: DataTypes.STRING(1000)
+    },
+    bio: {
+      type: DataTypes.STRING(1000)
     }
   }, {
     sequelize,
