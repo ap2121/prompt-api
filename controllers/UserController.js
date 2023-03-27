@@ -1,5 +1,5 @@
-const {User, Post, Comment, UserFollowers, sequelize } = require('../models')
-const user = require('../models/user')
+const {User, Post, Comment, sequelize } = require('../models')
+
 
 const findUserById = async (req, res) => {
     try {

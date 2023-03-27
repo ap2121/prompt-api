@@ -31,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    proPic: {
+      type: DataTypes.STRING(1000)
     }
   }, {
     sequelize,
