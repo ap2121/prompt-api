@@ -32,8 +32,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
+    proPicPrompt: {
+      type: DataTypes.STRING
+    },
     proPic: {
       type: DataTypes.STRING(1000)
+    },
+    bioPrompt: {
+      type: DataTypes.STRING
     },
     bio: {
       type: DataTypes.STRING(1000)

@@ -103,6 +103,9 @@ const GetPost = async (req, res) => {
     }
 }
 
+
+
+
 module.exports = {
     NewPost,
     GetPosts,
