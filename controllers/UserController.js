@@ -27,21 +27,19 @@ const followUser = async (req, res) => {
     const followedId = parseInt(req.params.followed_id)
 
    const user = await User.findOne({
-    where: {id: userId}
+    where: {id: userId},
+    
    }) 
    const followed = await User.findOne({
     where: {id: followedId}
+    
+     
    })
 
    await followed.addFollower(user)
 
    res.send('ok')
-   
-
-    
-
-   
-}
+   }
 
 const unfollowUser = async (req, res) => {
     const userId = parseInt(req.params.user_id)
@@ -77,7 +75,23 @@ const getUserFollowing = async (req, res) => {
     res.send(user)
 }
 
+const getUserFeed = async (req, res) => {
+    try {
+        const userId = parseInt(req.params.user_id)
+    const user = await User.findByPk(userId)
+    const followed = await user.getFollowing()
+    const userFeed = await Post.findAll({
+        where: {
+            userId: followed.map(u => u.id)
+        },
+        include: [{model: User}]
+    })
+    res.send(userFeed)
+    } catch(error) {
+        throw error
+    }
 
+}
 
 module.exports = {
     findUserById,
@@ -85,7 +99,8 @@ module.exports = {
     followUser,
     unfollowUser,
     getUserFollowers,
-    getUserFollowing
+    getUserFollowing,
+    getUserFeed
 
     
 }
