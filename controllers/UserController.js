@@ -23,37 +23,40 @@ const getUsers = async (req, res) => {
 }
 
 const followUser = async (req, res) => {
-    const userId = parseInt(req.params.user_id)
-    const followedId = parseInt(req.params.followed_id)
-
-   const user = await User.findOne({
-    where: {id: userId},
+    try {
+        const userId = parseInt(req.params.user_id)
+        const followedId = parseInt(req.params.followed_id)
     
-   }) 
-   const followed = await User.findOne({
-    where: {id: followedId}
+        const user = await User.findByPk(userId) 
+        const followed = await User.findByPk(followedId)
+        const userFollowing = await user.getFollowing()
+        if(!userFollowing.includes(followed)) {
+            await followed.addFollower(user)
+            res.send({msg: `user with id ${userId} followed user with id ${followedId}`})
+        } else {
+            res.send({msg: 'Cannot follow someone twice'})
+        }
+        
     
-     
-   })
-
-   await followed.addFollower(user)
-
-   res.send('ok')
+       
+    } catch(error) {
+        throw error
+    }
    }
 
 const unfollowUser = async (req, res) => {
-    const userId = parseInt(req.params.user_id)
-    const unfollowedId = parseInt(req.params.unfollowed_id)
+    try {
+        const userId = parseInt(req.params.user_id)
+        const unfollowedId = parseInt(req.params.unfollowed_id)
 
-    const user = await User.findOne({
-        where: {id: userId}
-    })
-    const unfollowed = await User.findOne({
-        where: {id: unfollowedId}
-    })
+        const user = await User.findByPk(userId)
+        const unfollowed = await User.findByPk(unfollowedId)
 
-    await unfollowed.removeFollower(user)
-    res.send('ok')
+        await unfollowed.removeFollower(user)
+    res.send({msg: `user with id ${userId} unfollowed user with id ${unfollowedId}`})
+    } catch(error) {
+        throw error
+    }
 }
 
 const getUserFollowers = async (req, res) => {
@@ -78,9 +81,9 @@ const getUserFollowing = async (req, res) => {
 const getUserFeed = async (req, res) => {
     try {
         const userId = parseInt(req.params.user_id)
-    const user = await User.findByPk(userId)
-    const followed = await user.getFollowing()
-    const userFeed = await Post.findAll({
+        const user = await User.findByPk(userId)
+        const followed = await user.getFollowing()
+        const userFeed = await Post.findAll({
         where: {
             userId: followed.map(u => u.id)
         },
