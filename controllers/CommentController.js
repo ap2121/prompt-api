@@ -22,7 +22,20 @@ const CommentsByUser = async (req, res) => {
     res.status(200).send(comments)
 }
 
+const deleteComment = async (req, res) => {
+   try {
+    const commentId = parseInt(req.params.comment_id)
+    await Comment.destroy({
+        where: {id: commentId}
+    })
+    res.send({msg: `Comment with id of ${commentId} deleted`})
+   } catch(error) {
+    throw error
+   } 
+}
+
 module.exports = {
     CommentsByPost,
-    CommentsByUser
+    CommentsByUser,
+    deleteComment
 }
