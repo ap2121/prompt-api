@@ -24,7 +24,7 @@ const getUsers = async (req, res) => {
 
 const followUser = async (req, res) => {
     try {
-        const userId = parseInt(req.params.user_id)
+        const userId = parseInt(req.body.id)
         const followedId = parseInt(req.params.followed_id)
     
         const user = await User.findByPk(userId) 
@@ -46,7 +46,7 @@ const followUser = async (req, res) => {
 
 const unfollowUser = async (req, res) => {
     try {
-        const userId = parseInt(req.params.user_id)
+        const userId = parseInt(req.body.id)
         const unfollowedId = parseInt(req.params.unfollowed_id)
 
         const user = await User.findByPk(userId)
