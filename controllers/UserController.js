@@ -87,7 +87,7 @@ const getUserFeed = async (req, res) => {
         where: {
             userId: followed.map(u => u.id)
         },
-        include: [{model: User}]
+        include: [{model: User}, {model: Comment}]
     })
     res.send(userFeed)
     } catch(error) {
