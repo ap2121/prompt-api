@@ -48,7 +48,6 @@ const unfollowUser = async (req, res) => {
     try {
         const userId = parseInt(req.body.id)
         const unfollowedId = parseInt(req.params.unfollowed_id)
-
         const user = await User.findByPk(userId)
         const unfollowed = await User.findByPk(unfollowedId)
 
@@ -87,6 +86,9 @@ const getUserFeed = async (req, res) => {
         where: {
             userId: followed.map(u => u.id)
         },
+        order: [
+            ['createdAt', 'DESC']
+        ],
         include: [{model: User}, {model: Comment}]
     })
     res.send(userFeed)
