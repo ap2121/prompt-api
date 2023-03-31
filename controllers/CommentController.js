@@ -14,7 +14,8 @@ const CommentsByPost = async (req, res) => {
    const id = parseInt(req.params.post_id)
     
     const comments = await Comment.findAll({
-        where: {postId: id}
+        where: {postId: id},
+        include: [{model:User}]
     })
    
     res.status(200).send(comments)

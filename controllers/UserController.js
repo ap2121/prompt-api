@@ -1,4 +1,4 @@
-const {User, Post, Comment, sequelize } = require('../models')
+const {User, Post, Comment, UserFollowers, sequelize } = require('../models')
 
 
 const findUserById = async (req, res) => {
@@ -24,7 +24,7 @@ const getUsers = async (req, res) => {
 
 const followUser = async (req, res) => {
     try {
-        const userId = parseInt(req.body.id)
+        const userId = parseInt(req.params.user_id)
         const followedId = parseInt(req.params.followed_id)
     
         const user = await User.findByPk(userId) 
@@ -46,7 +46,7 @@ const followUser = async (req, res) => {
 
 const unfollowUser = async (req, res) => {
     try {
-        const userId = parseInt(req.body.id)
+        const userId = parseInt(req.params.user_id)
         const unfollowedId = parseInt(req.params.unfollowed_id)
         const user = await User.findByPk(userId)
         const unfollowed = await User.findByPk(unfollowedId)
@@ -98,6 +98,30 @@ const getUserFeed = async (req, res) => {
 
 }
 
+const isFollowing = async (req, res) => {
+   try {
+    let following = false
+    const userId = parseInt(req.params.user_id)
+    const followedId = parseInt(req.params.followed_id)
+    
+    
+    const follower = await UserFollowers.findOne({
+        where: {
+            userId: userId,
+            followedId: followedId
+        }
+    })
+    
+    if(follower) {
+        res.status(200).send({msg: 'Successful'})
+    } else {
+        res.status(205).send({msg: 'user not following this user'})
+    }
+   } catch(error) {
+    throw error
+   }
+
+}
 module.exports = {
     findUserById,
     getUsers,
@@ -105,7 +129,8 @@ module.exports = {
     unfollowUser,
     getUserFollowers,
     getUserFollowing,
-    getUserFeed
+    getUserFeed,
+    isFollowing
 
     
 }
