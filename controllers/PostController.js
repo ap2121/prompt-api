@@ -20,7 +20,7 @@ const NewPost = async (req, res) => {
         const {capPrompt, imgPrompt} = req.body
         const userId = parseInt(req.params.id)
         const aiImgRes = await openAi.createImage({
-            prompt: `Draw a picture of ${imgPrompt}`,
+            prompt: `${imgPrompt}`,
             n: 1,
             size: '1024x1024',
             response_format: 'url'
@@ -57,7 +57,7 @@ const NewComment = async (req, res) => {
         const aiComRes = await openAi.createCompletion({
         model: 'text-davinci-003',
         prompt: `Write a short instagram type comment about ${comPrompt}`,
-        temperature: 0.4,
+        temperature: 0.2,
         max_tokens: 150
     })
     const comment = aiComRes.data.choices[0].text
@@ -91,6 +91,18 @@ const GetPosts = async (req, res) => {
 
 }
 
+const getUserPosts = async (req, res) => {
+    try {
+        const userId = parseInt(req.params.user_id)
+        const userPosts = await Post.findAll({
+            where: {userId: userId }
+        })
+        res.send(userPosts)
+    } catch(error) {
+        throw error
+    }
+}
+
 const GetPost = async (req, res) => {
     try {
         let postId = parseInt(req.params.id)
@@ -108,7 +120,7 @@ const updateProPic = async (req, res) => {
         const userId = parseInt(req.params.user_id)
     const {proPicPrompt, email, username, password, bio, bioPrompt} = req.body
     const aiProPicRes = await openAi.createImage({
-        prompt: `Draw a picture of ${proPicPrompt}`,
+        prompt: `${proPicPrompt}`,
         n: 1,
         size: '1024x1024',
         response_format: 'url'
@@ -181,6 +193,7 @@ module.exports = {
     NewComment,
     updateProPic,
     updateBio,
-    deletePost
+    deletePost,
+    getUserPosts
 }
 

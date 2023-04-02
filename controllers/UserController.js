@@ -100,22 +100,22 @@ const getUserFeed = async (req, res) => {
 
 const isFollowing = async (req, res) => {
    try {
-    let following = false
-    const userId = parseInt(req.params.user_id)
-    const followedId = parseInt(req.params.followed_id)
+    const {user_id, followed_id} = req.params 
+    // const userId = parseInt(req.params.user_id)
+    // const followedId = parseInt(req.params.followed_id)
     
     
     const follower = await UserFollowers.findOne({
         where: {
-            userId: userId,
-            followedId: followedId
+            userId: parseInt(user_id),
+            followedId: parseInt(followed_id)
         }
     })
-    
+    console.log(follower)
     if(follower) {
         res.status(200).send({msg: 'Successful'})
     } else {
-        res.status(205).send({msg: 'user not following this user'})
+        res.status(202).send({msg: 'user not following this user'})
     }
    } catch(error) {
     throw error
