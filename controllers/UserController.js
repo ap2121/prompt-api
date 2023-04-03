@@ -1,4 +1,5 @@
 const {User, Post, Comment, UserFollowers, sequelize } = require('../models')
+const {Op} = require('sequelize')
 
 
 const findUserById = async (req, res) => {

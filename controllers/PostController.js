@@ -22,7 +22,7 @@ const NewPost = async (req, res) => {
         const aiImgRes = await openAi.createImage({
             prompt: `${imgPrompt}`,
             n: 1,
-            size: '1024x1024',
+            size: '512x512',
             response_format: 'url'
         })
         const aiCapRes = await openAi.createCompletion({
@@ -82,7 +82,9 @@ const NewComment = async (req, res) => {
 const GetPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
-            include: [{model: Comment}]
+            include: [{model: Comment}],
+            order: [['createdAt', 'DESC']],
+            limit: 20
         })
         res.status(200).send(posts)
     } catch(error) {
@@ -95,7 +97,8 @@ const getUserPosts = async (req, res) => {
     try {
         const userId = parseInt(req.params.user_id)
         const userPosts = await Post.findAll({
-            where: {userId: userId }
+            where: {userId: userId },
+            order: [['createdAt', 'DESC']]
         })
         res.send(userPosts)
     } catch(error) {
@@ -122,7 +125,7 @@ const updateProPic = async (req, res) => {
     const aiProPicRes = await openAi.createImage({
         prompt: `${proPicPrompt}`,
         n: 1,
-        size: '1024x1024',
+        size: '512x512',
         response_format: 'url'
 
     })
