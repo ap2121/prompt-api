@@ -84,7 +84,7 @@ const GetPosts = async (req, res) => {
         const posts = await Post.findAll({
             include: [{model: Comment}],
             order: [['createdAt', 'DESC']],
-            limit: 20
+            limit: 21
         })
         res.status(200).send(posts)
     } catch(error) {
