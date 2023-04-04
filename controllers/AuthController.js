@@ -33,9 +33,11 @@ const Login = async (req, res) => {
 
 const Register = async (req, res) => {
     try {
-        const {email, username} = req.body
+        console.log(req.body)
         let notHashedPass = req.body.password
-        console.log(req.body.password)
+        const {email, username} = req.body
+        
+       
         let password = await middleware.hashPassword(notHashedPass)
         
         const user = await User.create({email, password, username})
