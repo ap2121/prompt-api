@@ -10,9 +10,9 @@ const configuration = new Configuration({
     
 })
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: "dntodeqe9",
+    api_key: "765429662161214",
+    api_secret: "kY2ybJDx1ICG8SKyQpFROth56tk",
 });
 const openAi = new OpenAIApi(configuration)
 const NewPost = async (req, res) => {
