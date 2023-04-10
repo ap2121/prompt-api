@@ -26,7 +26,7 @@ const Login = async (req, res) => {
         }
         res.status(401).send({status: 'Error', msg: 'Unauthorized'})
     } catch(error) {
-        throw error
+        res.status(400).send({msg: "Login Failed"})
     }
 }
 
