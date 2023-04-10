@@ -82,7 +82,7 @@ const NewComment = async (req, res) => {
 const GetPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
-            include: [{model: Comment}],
+            include: [{model: Comment}, {model: User}],
             order: [['createdAt', 'DESC']],
             limit: 21
         })
